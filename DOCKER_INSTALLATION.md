@@ -37,12 +37,11 @@
 
 ---
 
-## 🪟 การติดตั้งบน Windows
+##🪟 การติดตั้งบน Windows
+
 
 **ขั้นตอนที่ 1: เปิดใช้งาน WSL 2**
 เปิด **PowerShell** ในโหมด Administrator แล้วรันคำสั่ง:
-
-
 ```powershell
 wsl --install
 
