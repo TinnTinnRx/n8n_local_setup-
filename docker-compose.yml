@@ -1,18 +1,28 @@
+version: '3.8'
+
 services:
   n8n:
     image: docker.n8n.io/n8nio/n8n
-    restart: always
+    container_name: n8n
+    restart: unless-stopped
     ports:
       - "5678:5678"
     environment:
-      - N8N_HOST=${NGROK_DOMAIN}
+      - N8N_HOST=0.0.0.0
       - N8N_PORT=5678
       - N8N_PROTOCOL=https
       - NODE_ENV=production
-      - WEBHOOK_URL=https://${NGROK_DOMAIN}/
-      - GENERIC_TIMEZONE=Asia/Bangkok
+      # - WEBHOOK_URL=https://[your-url].trycloudflare.com # จะมาใส่ในภายหลัง
     volumes:
       - n8n_data:/home/node/.n8n
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel --url http://n8n:5678
+    depends_on:
+      - n8n
 
 volumes:
   n8n_data:
